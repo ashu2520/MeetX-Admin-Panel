@@ -12,7 +12,12 @@ import New from "./pages/List Users/New";
 import ConnectionRequests from "./pages/ConnectionRequests/ConnectionRequests";
 import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
+
+import WalletHistory from "./pages/WalletHistory/WalletHistory";
+
+
 import MeetingList from "./pages/MeetingList/MeetingList"
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +31,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword/>} />
         <Route path="/connection-requests" element={<ConnectionRequests/>}/>
         <Route path="/reported-post" element={<ReportedPosts/>}/>
+        <Route path="/wallet-history" element={<WalletHistory/>}/>
         <Route path="/meetinglist" element={<MeetingList/>}/>
       </Routes>
     </BrowserRouter>
