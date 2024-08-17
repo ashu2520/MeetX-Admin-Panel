@@ -6,10 +6,17 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ManageTemplates from "./pages/ManageTemplates/ManageTemplates";
 import EditTemplate from "./pages/EditTemplate/EditTemplate";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
+
+
+import New from "./pages/List Users/New";
 import ConnectionRequests from "./pages/ConnectionRequests/ConnectionRequests";
 import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
+
 import WalletHistory from "./pages/WalletHistory/WalletHistory";
+
+
+import MeetingList from "./pages/MeetingList/MeetingList"
 
 function App() {
   return (
@@ -25,6 +32,7 @@ function App() {
         <Route path="/connection-requests" element={<ConnectionRequests/>}/>
         <Route path="/reported-post" element={<ReportedPosts/>}/>
         <Route path="/wallet-history" element={<WalletHistory/>}/>
+        <Route path="/meetinglist" element={<MeetingList/>}/>
       </Routes>
     </BrowserRouter>
   );
