@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
 import UserDetails from "../../components/Profile/UserDetails";
@@ -8,27 +9,32 @@ import MeetingTab from "../../components/Profile/MeetingTab";
 import PaymentTab from "../../components/Profile/PaymentTab";
 
 const Profile = () => {
+  const { userId } = useParams();  // Get userId from URL params
+  const [userData, setUserData] = useState(null);
   const [activeTab, setActive] = useState(null);
+
+  useEffect(() => {
+    // Fetch user data from the backend
+    fetch(`http://localhost:8081/api/userProfile/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserData(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+  }, [userId]);
 
   function updateActiveTab(tab) {
     setActive(tab);
   }
 
-  const profile_url =
-    "https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg";
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
-  const userData = {
-    name: "Rohan",
-    userId: "@rohan",
-    connector: "10",
-    connectee: "20",
-    followers: "30",
-    following: "40",
-    email: "example@email.com",
-    mobile: "1234567890",
-  };
+  const profile_url = userData.profile_url || "https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg";
 
-  const userId = "rohan";
   return (
     <>
       <NavBar />
@@ -38,7 +44,7 @@ const Profile = () => {
           <div className="w-full flex gap-8 items-center">
             <img
               src={profile_url}
-              alt={userId}
+              alt={userData.name}
               className="w-52 rounded-full h-52"
             />
             <UserDetails props={userData} />
