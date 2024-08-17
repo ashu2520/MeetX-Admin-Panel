@@ -19,7 +19,7 @@ const Header = () => {
           </ul>
         </div>
       </div>
-      <div className="nav_top_main">
+      {/* <div className="nav_top_main">
         <ul className="sm:text-sm lg:text-base" >
           <li className="active">
             <a href="/dashboard">Dashboard</a>
@@ -52,7 +52,7 @@ const Header = () => {
             <a href="">Settings</a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
