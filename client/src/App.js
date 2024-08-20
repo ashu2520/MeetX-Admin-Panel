@@ -6,16 +6,16 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ManageTemplates from "./pages/ManageTemplates/ManageTemplates";
 import EditTemplate from "./pages/EditTemplate/EditTemplate";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
+<<<<<<< HEAD
 
 
 //import New from "./pages/List Users/New";
+=======
+>>>>>>> 90233e1b29b042902921c1ff96d22ec789a07370
 import ConnectionRequests from "./pages/ConnectionRequests/ConnectionRequests";
 import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
-
 import WalletHistory from "./pages/WalletHistory/WalletHistory";
-
-
 import MeetingList from "./pages/MeetingList/MeetingList"
 
 function App() {
