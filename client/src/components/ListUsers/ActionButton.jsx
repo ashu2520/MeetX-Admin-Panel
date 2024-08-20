@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ActionButton = ({ userId }) => {
-const ActionButton = ({ userId }) => {
   return (
     <Link
       to={`/users/profile?userId=${userId}`}
@@ -12,7 +11,5 @@ const ActionButton = ({ userId }) => {
     </Link>
   );
 };
-
-export default ActionButton;
 
 export default ActionButton;
