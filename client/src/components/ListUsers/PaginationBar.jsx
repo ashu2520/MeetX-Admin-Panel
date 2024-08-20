@@ -21,7 +21,7 @@ const PaginationBar = ({ currentPage, totalPages, onPageChange }) => {
           key={i}
           onClick={() => onPageChange(i)}
           className={`bg-white font-semibold p-2 text-sm py-0 border rounded-md hoverBgOrange ${
-            currentPage === i ? 'bg-orange-500 text-white' : ''
+            currentPage === i ? "bg-orange-500 text-white" : ""
           }`}
         >
           {i}
@@ -36,7 +36,7 @@ const PaginationBar = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={handlePrevious}
         className={`bg-white font-semibold p-2 text-sm py-0 border rounded-md hoverBgOrange ${
-          currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''
+          currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
         }`}
         disabled={currentPage === 1}
       >
@@ -46,7 +46,7 @@ const PaginationBar = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={handleNext}
         className={`bg-white font-semibold p-2 text-sm py-0 border rounded-md hoverBgOrange ${
-          currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''
+          currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
         }`}
         disabled={currentPage === totalPages}
       >

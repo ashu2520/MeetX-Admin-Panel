@@ -8,7 +8,7 @@ import EditTemplate from "./pages/EditTemplate/EditTemplate";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 
 
-import New from "./pages/List Users/New";
+//import New from "./pages/List Users/New";
 import ConnectionRequests from "./pages/ConnectionRequests/ConnectionRequests";
 import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
