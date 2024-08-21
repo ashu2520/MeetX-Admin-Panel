@@ -4,14 +4,18 @@ import DashCard from "../../components/Dashboard/DashCard";
 import PieChart from "../../components/Dashboard/PieChart";
 import LineChart from "../../components/Dashboard/LineChart";
 import Sidebar from "../../components/Sidebar";
-import DashCalendarCard from "../../components/Dashboard/DashCalendarCard";
+// import DashCalendarCard from "../../components/Dashboard/DashCalendarCard";
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/dashboard")
+    fetch("http://localhost:8081/api/dashboard",{
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -19,7 +23,6 @@ const Dashboard = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Dashboard Data:", data);
         setDashboardData(data);
       })
       .catch((err) => {

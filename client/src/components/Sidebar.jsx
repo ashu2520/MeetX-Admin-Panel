@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   return (
     <>
-    <div className='bg-white w-60 min-h-screen shadow-2xl'>
+    <div className='bg-white w-60 min-h-screen shadow-2xl z-20'>
         <Link to="/dashboard" className={`flex ${route === "/dashboard" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={DashIcon} alt="" className="w-4"/>
            <span>Dashboard</span> 

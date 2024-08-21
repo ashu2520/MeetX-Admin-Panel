@@ -29,7 +29,11 @@ const ListUsers = () => {
   // Fetch data whenever the current page changes
   useEffect(() => {
     fetch(
-      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}`
+      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}`,{
+        headers:{
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      }
     )
       .then((res) => {
         if (!res.ok) {

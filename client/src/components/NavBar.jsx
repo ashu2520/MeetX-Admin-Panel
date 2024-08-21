@@ -7,6 +7,11 @@ const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isTokenChecked, setIsTokenChecked] = useState(false); 
+
+  const logout = () => {
+    sessionStorage.removeItem("token");
+    window.location.href = "/";
+  }
   
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -38,6 +43,7 @@ const NavBar = () => {
       setIsTokenChecked(true); 
     }
   }, []); 
+  
   useEffect(() => {
     if (isTokenChecked && (!isLoggedIn || !isTokenValid)) {
       document.body.style.overflow = "hidden";
@@ -65,7 +71,7 @@ const NavBar = () => {
     <div className="w-full bg-[#DBE3FF] p-2 flex justify-between items-center">
       <img src={logo} alt="MEETX" className="h-8" />
       <Link
-        to="/"
+        to="/" onClick={()=>logout()}
         className="bg-blue-500 flex items-center p-2 rounded-lg text-white"
       >
         Log Out

@@ -25,7 +25,11 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8081/api/profile/${userId}`
+          `http://localhost:8081/api/profile/${userId}`,{
+            headers:{
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+          }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

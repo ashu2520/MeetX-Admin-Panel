@@ -6,12 +6,12 @@ const ChangePassword = () => {
   return (
     <>
       <NavBar />
-      <div className="flex">
+      <div className="w-full flex">
         <Sidebar />
         <div className="p-4 w-full">
           <h1 className="text-2xl">Change Password</h1>
           <div className="m-3 flex p-2 -ml-48">
-            <form className="grid grid-cols-2 gap-3 content-center w-full ">
+            <form className="grid grid-cols-2 gap-3 content-center w-full">
               <label htmlFor="" className="text-right text-base">
                 Old Password :
               </label>

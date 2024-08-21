@@ -10,7 +10,11 @@ const WalletHistory = () => {
   useEffect(() => {
     const fetchWalletHistory = async () => {
       try {
-        const response = await fetch("http://localhost:8081/api/walletHistory");
+        const response = await fetch("http://localhost:8081/api/walletHistory",{
+          headers:{
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          }
+        });
         const data = await response.json();
         setWalletHistories(data);
       } catch (error) {
