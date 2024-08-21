@@ -15,7 +15,6 @@ const NavBar = () => {
   
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    console.log("Token:", token);
 
     if (token) {
       axios
