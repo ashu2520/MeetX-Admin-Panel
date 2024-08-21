@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import './Login.css'; 
 import cross from "../../assets/unsucess-msg.png"
 import logo from "../../assets/logo.svg"
+import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,12 +12,20 @@ const Login = () => {
   const handleLogin = (event) => {
     event.preventDefault();
     
-    if (username === 'admin' && password === 'admin') {
-      setError(false);
-      alert('Login Successful');
-    } else {
-      setError(true);
-    }
+    axios.post('http://localhost:8081/api/admins/login', {
+      admin_email: username,
+      admin_password: password
+    })
+    .then((res) => {
+      sessionStorage.setItem("token", res.data.accesstoken);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response.data.error); 
+      } else {
+        console.log(err.message);
+      }
+    });
   };
 
   return (
