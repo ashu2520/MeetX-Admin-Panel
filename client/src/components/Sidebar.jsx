@@ -26,18 +26,18 @@ const Sidebar = () => {
            <img src={UserIcon} alt="" className="w-4"/>
            <span>Users</span> 
         </Link>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        <Link to="/employees" className={`flex ${route === "/employees" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={EmployeeIcon} alt="" className="w-4"/>
            <span>Employee</span> 
-        </button>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        </Link>
+        <Link to="/meeting-list" className={`flex ${route === "/meeting-list" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={MeetingIcon} alt="" className="w-4"/>
            <span>Meeting List</span> 
-        </button>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        </Link>
+        <Link to="/withdraw-list" className={`flex ${route === "/withdraw-list" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={WithdrawIcon} alt="" className="w-4"/>
            <span>Withdraw List</span> 
-        </button>
+        </Link>
         <Link to="/reported-post" className={`flex ${route === "/reported-post"? "bg-[#5247D1] text-white " : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={ReportIcon} alt="" className="w-4"/>
            <span>Reported Post List</span> 
@@ -46,22 +46,22 @@ const Sidebar = () => {
            <img src={ChangePasswordIcon} alt="" className="w-4"/>
            <span>Change Password</span> 
         </Link>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        <Link to="/manage-templates" className={`flex ${route === "/manage-templates"? "bg-[#5247D1] text-white " : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={ManageTemplateIcon} alt="" className="w-4"/>
            <span>Manage Templates</span> 
-        </button>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        </Link>
+        <Link to="/manage-testimonials" className={`flex ${route === "/manage-testimonials"? "bg-[#5247D1] text-white " : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={ManageTestimonialsIcon} alt="" className="w-4"/>
            <span>Manage Testimonials</span> 
-        </button>
+        </Link>
         <Link to="/connection-requests" className={`flex ${route === "/connection-requests" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={connectionRequestIcon} alt="" className="w-4"/>
            <span>Connection Requests</span> 
         </Link>
-        <button className='flex text-black gap-2 p-2 w-full items-center hover:bg-indigo-100'>
+        <Link to="/settings" className={`flex ${route === "/settings" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={SettingsIcon} alt="" className="w-4"/>
            <span>Manage Settings</span> 
-        </button>
+        </Link>
     </div>
     </>
   )
