@@ -1,15 +1,17 @@
 import React from "react";
-import ConnectionTabRowHead from "./ConnectionTabRowHead";
-import ConnectionTabRow from "./ConnectionTabRow";
+import FollowerTabRow from "./FollowerTabRow";
+import FollowerTabRowHead from "./FollowerTabRowHead";
 
-const FollowersTab = () => {
+const FollowersTab = ({ sentRequests, receivedRequests }) => {
   return (
     <>
       <div className="mt-10 bg-white relative w-full border rounded-xl overflow-hidden tab">
-        <ConnectionTabRowHead />
+        <FollowerTabRowHead />
         <div className="max-h-[50vh] overflow-y-scroll">
-          <ConnectionTabRow />
-          <ConnectionTabRow />
+          <FollowerTabRow
+            sentRequests={sentRequests}
+            receivedRequests={receivedRequests}
+          />
         </div>
       </div>
     </>
