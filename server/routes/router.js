@@ -26,8 +26,10 @@ router.get('/api/profile/:userId', getUserProfile);
 router.get('/api/connectionStatus/:userId', getConnectionStatus);
 
 //fetch followers data
-router.get('/api/followerStatus/:userId',getFollowersStatus)
+router.get('/api/followerStatus/:userId', getFollowersStatus);
+
 router.get('/api/meetinglist/:userId', getMeetingsForUser);
+
 router.get('/api/payment/:userId', getPaymentHistory);
 
 router.get('/api/followerlist',userFollowers)

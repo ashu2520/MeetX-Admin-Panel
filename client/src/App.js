@@ -16,6 +16,7 @@ import Employee from "./pages/Employee/Employee";
 import Withdraw from "./pages/WithdrawList/WithdrawList";
 import ManageTestimonials from "./pages/ManageTestimonials/ManageTestimonials";
 import Settings from "./pages/Settings/Settings";
+import FollowersList from "./pages/FollowersList/FollowersLists";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         <Route path="/users/profile" element={<Profile/>}/>
         <Route path="/employees" element={<Employee/>} />
         <Route path="/meeting-list" element={<MeetingList/>}/>
-        <Route path="/withdraw-list" element={<Withdraw/>}/>
+        
         <Route path="/reported-post" element={<ReportedPosts/>}/>
         <Route path="/change-password" element={<ChangePassword/>} />
         <Route path="/manage-templates" element={<ManageTemplates/>} />
@@ -35,7 +36,8 @@ function App() {
         <Route path="manage-testimonials" element={<ManageTestimonials/>}/>
         <Route path="/connection-requests" element={<ConnectionRequests/>}/>
         <Route path="/settings" element={<Settings/>}/>
-        <Route path="/wallet-history" element={<WalletHistory/>}/>
+        <Route path="/withdraw-list" element={<WalletHistory/>}/>
+        <Route path="/followerlist"  element={<FollowersList/>}/>
       </Routes>
     </BrowserRouter>
   );

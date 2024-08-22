@@ -9,8 +9,12 @@ import MeetingTab from "../../components/Profile/MeetingTab";
 import PaymentTab from "../../components/Profile/PaymentTab";
 
 const Profile = () => {
-  const [activeTab, setActive] = useState("connectionStatus"); // Default active tab
+  const [activeTab, setActive] = useState("connectionStatus");
   const [userData, setUserData] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState(null);
+  const [followersStatus, setFollowersStatus] = useState(null);
+  const [meetings, setMeetings] = useState([]);
+  const [payments, setPayments] = useState([]);
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
@@ -18,30 +22,67 @@ const Profile = () => {
 
   useEffect(() => {
     if (!userId) {
-      console.error("User ID is missing in query parameters.");
+      console.error("User ID is missing or invalid in query parameters.");
       return;
     }
 
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8081/api/profile/${userId}`,{
-            headers:{
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            }
-          }
+        // Fetch user data
+        const userResponse = await fetch(
+          `http://localhost:8081/api/profile/${userId}`
         );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (!userResponse.ok) {
+          throw new Error(`HTTP error! status: ${userResponse.status}`);
         }
-        const data = await response.json();
-        setUserData(data);
+        const userData = await userResponse.json();
+        setUserData(userData);
+
+        // Fetch connection status
+        const connectionResponse = await fetch(
+          `http://localhost:8081/api/connectionStatus/${userId}`
+        );
+        if (!connectionResponse.ok) {
+          throw new Error(`HTTP error! status: ${connectionResponse.status}`);
+        }
+        const connectionData = await connectionResponse.json();
+        setConnectionStatus(connectionData);
+
+        // Fetch followers status
+        const followersResponse = await fetch(
+          `http://localhost:8081/api/followerStatus/${userId}`
+        );
+        if (!followersResponse.ok) {
+          throw new Error(`HTTP error! status: ${followersResponse.status}`);
+        }
+        const followersData = await followersResponse.json();
+        setFollowersStatus(followersData);
+
+        // Fetch meetings data
+        const meetingsResponse = await fetch(
+          `http://localhost:8081/api/meetinglist/${userId}`
+        );
+        if (!meetingsResponse.ok) {
+          throw new Error(`HTTP error! status: ${meetingsResponse.status}`);
+        }
+        const meetingsData = await meetingsResponse.json();
+        setMeetings(meetingsData);
+
+        // Fetch payment data
+        const paymentsResponse = await fetch(
+          `http://localhost:8081/api/payment/${userId}`
+        );
+        if (!paymentsResponse.ok) {
+          throw new Error(`HTTP error! status: ${paymentsResponse.status}`);
+        }
+        const paymentsData = await paymentsResponse.json();
+        setPayments(paymentsData);
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchUserData();
+    fetchData();
   }, [userId]);
 
   function updateActiveTab(tab) {
@@ -55,10 +96,6 @@ const Profile = () => {
   const profile_url =
     userData.profile_url ||
     "https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg";
-
-  if (!userData) {
-    return <div>Loading...</div>;
-  }
 
   const { user, followers, following, connector, connectee } = userData;
   const { name, username, email, mobile_number, created_at, updated_at } = user;
@@ -132,20 +169,25 @@ const Profile = () => {
               Schedule Payment
             </div>
           </div>
-          {activeTab === "connectionStatus" && (
+          {activeTab === "connectionStatus" && connectionStatus && (
             <ConnectionStatusTab
-              connectionsCount={connector}
-              connecteesCount={connectee}
+              connectionsCount={connectionStatus.sentRequests}
+              connecteesCount={connectionStatus.receivedRequests}
             />
           )}
-          {activeTab === "followersStatus" && (
+          {activeTab === "followersStatus" && followersStatus && (
             <FollowersTab
-              followersCount={followers}
-              followingCount={following}
+              sentRequests={followersStatus.sentRequests}
+              receivedRequests={followersStatus.receivedRequests}
             />
           )}
-          {activeTab === "meetingSchedule" && <MeetingTab />}
-          {activeTab === "schedulePayment" && <PaymentTab />}
+          {activeTab === "meetingSchedule" && (
+            <MeetingTab meetings={meetings} />
+          )}
+          {activeTab === "schedulePayment" && (
+            <PaymentTab payments={payments} />
+          )}{" "}
+          {/* Pass payments data */}
         </div>
       </div>
     </>
