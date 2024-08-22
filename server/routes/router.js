@@ -6,7 +6,8 @@ const { userConnections } = require("../controllers/userConnections");
 const { reportedPosts } = require("../controllers/reportedPosts"); 
 const { getMeetings } = require("../controllers/meetController");
 const { getWalletHistory } = require("../controllers/walletHistory");
-const { getUserProfile } = require("../controllers/userDetail");
+const { getUserProfile, getConnectionStatus, getFollowersStatus, getMeetingsForUser, getPaymentHistory } = require("../controllers/userDetail");
+const { userFollowers } = require("../controllers/followerDetails");
 
 router.get("/api/dashboard", dashboard);
 router.get("/api/usersList", usersList);
@@ -21,5 +22,14 @@ router.get("/api/walletHistory", getWalletHistory);
 
 //fetch user detail
 router.get('/api/profile/:userId', getUserProfile);
+//fetch connextion data
+router.get('/api/connectionStatus/:userId', getConnectionStatus);
+
+//fetch followers data
+router.get('/api/followerStatus/:userId',getFollowersStatus)
+router.get('/api/meetinglist/:userId', getMeetingsForUser);
+router.get('/api/payment/:userId', getPaymentHistory);
+
+router.get('/api/followerlist',userFollowers)
 
 module.exports = router;
