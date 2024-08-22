@@ -10,7 +10,11 @@ const ReportedPosts = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/reportedPosts") 
+    fetch("http://localhost:8081/api/reportedPosts",{
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }) 
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

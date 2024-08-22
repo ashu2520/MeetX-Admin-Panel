@@ -10,7 +10,11 @@ const ConnectionRequests = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/usersConnection")
+    fetch("http://localhost:8081/api/usersConnection",{
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");

@@ -14,7 +14,11 @@ const MeetingList = () => {
 
   useEffect(() => {
     // Fetch meeting data from the backend
-    fetch("http://localhost:8081/api/meetings")
+    fetch("http://localhost:8081/api/meetings",{
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched meetings data:", data); // Debugging data

@@ -12,22 +12,30 @@ import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
 import WalletHistory from "./pages/WalletHistory/WalletHistory";
 import MeetingList from "./pages/MeetingList/MeetingList"
+import Employee from "./pages/Employee/Employee";
+import Withdraw from "./pages/WithdrawList/WithdrawList";
+import ManageTestimonials from "./pages/ManageTestimonials/ManageTestimonials";
+import Settings from "./pages/Settings/Settings";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<ListUsers />} />
         <Route path="/users/profile" element={<Profile/>}/>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/employees" element={<Employee/>} />
+        <Route path="/meeting-list" element={<MeetingList/>}/>
+        <Route path="/withdraw-list" element={<Withdraw/>}/>
+        <Route path="/reported-post" element={<ReportedPosts/>}/>
+        <Route path="/change-password" element={<ChangePassword/>} />
         <Route path="/manage-templates" element={<ManageTemplates/>} />
         <Route path="/edit-template" element={<EditTemplate/>} />
-        <Route path="/change-password" element={<ChangePassword/>} />
+        <Route path="manage-testimonials" element={<ManageTestimonials/>}/>
         <Route path="/connection-requests" element={<ConnectionRequests/>}/>
-        <Route path="/reported-post" element={<ReportedPosts/>}/>
+        <Route path="/settings" element={<Settings/>}/>
         <Route path="/wallet-history" element={<WalletHistory/>}/>
-        <Route path="/meetinglist" element={<MeetingList/>}/>
       </Routes>
     </BrowserRouter>
   );
