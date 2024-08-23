@@ -1,14 +1,21 @@
 import React from "react";
 
-const MeetingRow = () => {
+const MeetingRow = ({
+  initiator,
+  with: meetingWith,
+  date,
+  time,
+  charges,
+  status,
+}) => {
   return (
     <div className="bg-white connectionRequest-UserDataRow grid grid-cols-6">
-      <div className="p-2 text-center">@rohan</div>
-      <div className="p-2 text-center">@rahul</div>
-      <div className="p-2 text-center">24.04.2024</div>
-      <div className="p-2 text-center">08:30 PM - 10:30 PM</div>
-      <div className="p-2 text-center">Rs. 300</div>
-      <div className="p-2 text-center">Scheduled</div>
+      <div className="p-2 text-center">@{initiator}</div>
+      <div className="p-2 text-center">@{meetingWith}</div>
+      <div className="p-2 text-center">{date}</div>
+      <div className="p-2 text-center">{time}</div>
+      <div className="p-2 text-center">Rs. {charges}</div>
+      <div className="p-2 text-center">{status}</div>
     </div>
   );
 };
