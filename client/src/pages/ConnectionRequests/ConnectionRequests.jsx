@@ -17,7 +17,12 @@ const ConnectionRequests = () => {
   
 
   const fetchData = () => {
-    fetch(`http://localhost:8081/api/usersConnection?search=${search}&sortField=${sortField}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`)
+    fetch(`http://localhost:8081/api/usersConnection?search=${search}&sortField=${sortField}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
+    {
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");

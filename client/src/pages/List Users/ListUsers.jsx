@@ -39,7 +39,12 @@ const ListUsers = () => {
   // Fetch data whenever the current page, search, or sorting changes
   useEffect(() => {
     fetch(
-      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+      {
+        headers:{
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      }
     )
       .then((res) => {
         if (!res.ok) {

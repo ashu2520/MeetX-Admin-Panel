@@ -34,7 +34,12 @@ const ReportedPosts = () => {
   const fetchData = () => {
     setLoading(true);
     fetch(
-      `http://localhost:8081/api/reportedPosts?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}&search=${debouncedQuery}`
+      `http://localhost:8081/api/reportedPosts?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}&search=${debouncedQuery}`,
+      {
+        headers:{
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      }
     )
       .then((response) => {
         if (!response.ok) {

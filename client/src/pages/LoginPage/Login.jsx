@@ -36,7 +36,7 @@ const Login = () => {
     });
   };
 
-
+  document.body.style.overflow = "auto";
   return (
     <>
           <div className="flex w-full justify-center bg-[#DBE3FF]">

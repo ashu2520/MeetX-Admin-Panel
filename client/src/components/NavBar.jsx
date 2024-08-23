@@ -66,6 +66,7 @@ const NavBar = () => {
   }
 
   if(isTokenChecked && isLoggedIn && isTokenValid) {
+    document.body.style.overflow = "auto";
   return (
     <div className="w-full bg-[#DBE3FF] p-2 flex justify-between items-center">
       <img src={logo} alt="MEETX" className="h-8" />

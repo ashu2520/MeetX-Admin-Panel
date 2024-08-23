@@ -29,7 +29,12 @@ const MeetingList = () => {
       searchTerm,
     }).toString();
 
-    fetch(`http://localhost:8081/api/meetings?${queryParams}`)
+    fetch(`http://localhost:8081/api/meetings?${queryParams}`,
+    {
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched meetings data:", data);
