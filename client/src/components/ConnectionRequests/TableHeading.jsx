@@ -1,10 +1,12 @@
 import React from 'react'
-
-const TableHeading = () => {
+const TableHeading = ({onSort}) => {
   return (
     <div className='bg-white border flex shadow-md'>
                 <div className='border w-1/6 p-2 font-semibold'>Sl. No.</div>
-                <div className='border w-1/6 p-2 font-semibold'>User ID</div>
+                <div className='border w-1/6 p-2 font-semibold 
+                cursor-pointer' onClick={onSort}>
+                    User ID
+                    </div>
                 <div className='grid grid-rows-2 w-2/6'>
                     <div className='p-2 font-semibold text-center border'>Sent Request</div>
                     <div className="grid grid-cols-3">
