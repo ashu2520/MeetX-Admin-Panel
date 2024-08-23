@@ -2,6 +2,7 @@ import React from "react";
 
 const UserDataRow = ({index, userId, send_Accepted, send_Pending, send_Rejected, received_Accepted, received_Pending, received_Rejected}) => {
   return (
+    
     <>
       <div className="w-full connectionRequest-UserDataRow flex">
         <div className="p-2 border w-1/6">{index}</div>
