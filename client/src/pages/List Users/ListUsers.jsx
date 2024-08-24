@@ -111,7 +111,7 @@ const ListUsers = () => {
             currentSortBy={sortBy}
             currentSortOrder={sortOrder}
           />
-          <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
+          <div className="bg-white min-h-80 max-h-fit h-[440px] overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {usersData.length > 0 ? (
               usersData.map(
                 (

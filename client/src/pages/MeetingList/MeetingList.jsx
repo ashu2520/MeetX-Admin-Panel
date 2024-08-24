@@ -15,7 +15,7 @@ const MeetingList = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const inputRef = useRef(null);
 
   const fetchMeetings = useCallback(() => {
@@ -107,7 +107,7 @@ const MeetingList = () => {
             </form>
           </div>
           <TableHeading onSort={handleSort} currentSortBy={sortField} currentSortOrder={sortOrder} />
-          <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
+          <div className="bg-white min-h-80 max-h-fit h-[440px] overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {meetings.length === 0 ? (
                <div className="text-red-500 text-center py-4 text-3xl font-bold">
                No Meetings Available

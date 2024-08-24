@@ -79,10 +79,6 @@ const Login = () => {
                 />
               </div>
               <div className="form-group">
-              <div className='rememberMe'>
-                <input type="checkbox" />
-                <label>Remember me</label>
-              </div>
               </div>
               <button type="submit" className="btn_login">
                 Login
