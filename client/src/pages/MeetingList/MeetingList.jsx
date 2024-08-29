@@ -24,7 +24,7 @@ const MeetingList = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const inputRef = useRef(null);
 
   const fetchMeetings = useCallback(() => {
@@ -37,8 +37,13 @@ const MeetingList = () => {
       sortOrder,
       searchTerm,
     }).toString();
-    console.log(sortField, sortOrder);
-    fetch(`http://localhost:8081/api/meetings?${queryParams}`)
+    
+    fetch(`http://localhost:8081/api/meetings?${queryParams}`,
+    {
+      headers:{
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched meetings data:", data);
@@ -121,7 +126,7 @@ const MeetingList = () => {
               </button>
             </form>
           </div>
-          
+        
           {/* Table Heading Render */}
           <div className="bg-white border flex shadow-md">
             <SlNoColumn />

@@ -1,5 +1,6 @@
 import React from "react";
 import postsIcon from "../../assets/icons/posts.svg";
+import videoIcon from "../../assets/icons/video.svg"
 import { Dropdown } from "./Dropdown";
 
 const UserDetails = ({props}) => {
@@ -10,7 +11,7 @@ const UserDetails = ({props}) => {
         <div className="text-slate-900 text-2xl">{props.name}</div>
         <div className="text-slate-900 text-2xl">{props.userId}</div>
       </div>
-      <div className="w-full grid grid-cols-3 text-lg">
+      <div className="w-full gap-10 flex text-lg">
         <div className="text-lg">
           Email: <span className="text-blue-700">{props.email}</span>
         </div>
@@ -19,6 +20,9 @@ const UserDetails = ({props}) => {
         </div>
         <div className="flex gap-3 items-start">
           Posts: <img src={postsIcon} alt="Icon" className="w-6 mt-1" />
+        </div>
+        <div className="flex gap-3 items-start">
+          Videos: <img src={videoIcon} alt="Icon" className="w-6 mt-1" />
         </div>
       </div>
       <div className="grid grid-cols-2 w-full gap-x-10">

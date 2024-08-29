@@ -8,8 +8,8 @@ function DashCard({title, number}) {
         </div>
         <div className="flex justify-end">
             <div className='flex flex-col gap-2 text-right'>
-                <span className='text-[14px]'>{title}</span>
-                <span className='font-semibold'>{number}</span>
+                <span className='text-base'>{title}</span>
+                <span className='font-semibold text-lg'>{number}</span>
             </div>
         </div>
     </div>

@@ -15,6 +15,7 @@ import Employee from "./pages/Employee/Employee";
 import Withdraw from "./pages/WithdrawList/WithdrawList";
 import ManageTestimonials from "./pages/ManageTestimonials/ManageTestimonials";
 import Settings from "./pages/Settings/Settings";
+import Post from "./pages/Post/Post";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<ListUsers />} />
         <Route path="/users/profile" element={<Profile/>}/>
+        <Route path="/users/profile/post" element={<Post/>}/>
         <Route path="/employees" element={<Employee/>} />
         <Route path="/meeting-list" element={<MeetingList/>}/>
         <Route path="/withdraw-list" element={<Withdraw/>}/>

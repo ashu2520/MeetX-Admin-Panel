@@ -40,7 +40,7 @@ const ListUsers = () => {
   // Fetch data whenever the current page, search, or sorting changes
   useEffect(() => {
     fetch(
-      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+      http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}
     )
       .then((res) => {
         if (!res.ok) {
@@ -60,20 +60,20 @@ const ListUsers = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1); // Reset to page 1 on new search
-    navigate(`?page=1&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`);
+    navigate(?page=1&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder});
   };
   // Handle sort column change
   const handleSort = (column, order) => {
  
     setSortBy(column);
     setSortOrder(order);
-    navigate(`?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${column}&sortOrder=${order}`);
+    navigate(?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${column}&sortOrder=${order});
   };
 
   // Handle page changes and update the URL query parameters
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    navigate(`?page=${page}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`);
+    navigate(?page=${page}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder});
   };
 
   if (error) {

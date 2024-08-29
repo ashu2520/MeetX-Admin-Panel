@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
-import UserDetails from "../../components/Profile/UserDetails";
+// import UserDetails from "../../components/Profile/UserDetails";
 import ConnectionStatusTab from "../../components/Profile/ConnectionStatusTab";
 import FollowersTab from "../../components/Profile/FollowersTab";
 import MeetingTab from "../../components/Profile/MeetingTab";
 import PaymentTab from "../../components/Profile/PaymentTab";
+import postsIcon from "../../assets/icons/posts.svg";
+import videoIcon from "../../assets/icons/video.svg";
+import PostsTab from "../../components/Profile/PostsTab";
+import { postsList } from "./data";
 
 const Profile = () => {
   const [activeTab, setActive] = useState("connectionStatus"); // Default active tab
@@ -75,20 +79,48 @@ const Profile = () => {
               alt={username}
               className="w-52 rounded-full h-52"
             />
-            <UserDetails
-              props={{
-                name: name || "not provided",
-                userId: username,
-                email: email || "Not provided",
-                mobile: mobile_number || "Not provided",
-                createdAt: created_at,
-                updatedAt: updated_at,
-                followers: followers,
-                following: following,
-                connector: connector,
-                connectee: connectee,
-              }}
-            />
+            <div className="grid grid-flow-row w-full p-4 gap-4">
+      <div className="w-full grid grid-cols-3">
+        <div className="text-slate-900 text-2xl">{name}</div>
+        <div className="text-slate-900 text-2xl">{username}</div>
+      </div>
+      <div className="w-full gap-10 flex text-lg items-center">
+        <div className="text-lg">
+          Email: <span className="text-blue-700">{email}</span>
+        </div>
+        <div className="text-lg">
+          Mobile Number: <span className="text-blue-700">{mobile_number}</span>
+        </div>
+        <div className={`flex gap-3 p-2 items-start hover:cursor-pointer rounded-md ${activeTab==="posts"?"bg-blue-400":"bg-transparent"}`} onClick={() => updateActiveTab("posts")}>
+          Posts: <img src={postsIcon} alt="Icon" className="w-6 mt-1" />
+        </div>
+        <div className={`flex gap-3 p-2 items-start hover:cursor-pointer rounded-md ${activeTab==="videos"?"bg-blue-400":"bg-transparent"}`} onClick={() => updateActiveTab("videos")}>
+          Videos: <img src={videoIcon} alt="Icon" className="w-6 mt-1" />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 w-full gap-x-10">
+        <div className="w-full border-r-2 border-slate-500 grid grid-cols-2">
+            <div className="flex flex-col">
+                <div className="text-2xl font-semibold">{connector}</div>
+                <div className="text-lg">Connector</div>
+            </div>
+            <div className="flex flex-col">
+                <div className="text-2xl font-semibold">{connectee}</div>
+                <div className="text-lg">Connectee</div>
+            </div>
+        </div>
+        <div className="w-full grid grid-cols-2">
+            <div className="flex flex-col">
+                <div className="text-2xl font-semibold">{followers}</div>
+                <div className="text-lg">Followers</div>
+            </div>
+            <div className="flex flex-col">
+                <div className="text-2xl font-semibold">{following}</div>
+                <div className="text-lg">Following</div>
+            </div>
+        </div>
+      </div>
+      </div>
           </div>
           <div className="flex justify-evenly mt-5 w-full bg-indigo-200 mx-auto rounded-xl shadow-xl border-b-4 border-blue-400 overflow-hidden">
             <div
@@ -146,6 +178,8 @@ const Profile = () => {
           )}
           {activeTab === "meetingSchedule" && <MeetingTab />}
           {activeTab === "schedulePayment" && <PaymentTab />}
+          {activeTab === "posts" && <PostsTab posts={postsList}/>}
+          {activeTab === "videos" && <PostsTab posts={postsList}/>}
         </div>
       </div>
     </>
