@@ -2,10 +2,11 @@ import React from "react";
 
 const TableHeading = ({ sortBy, sortDirection, onSort }) => {
   const handleSort = (field) => {
-    // If the field clicked is already the one being sorted, toggle the direction
     const direction = sortBy === field && sortDirection === "asc" ? "desc" : "asc";
     onSort(field, direction);
   };
+  
+  
 
   return (
     <div className="bg-white border flex shadow-md">
@@ -18,8 +19,10 @@ const TableHeading = ({ sortBy, sortDirection, onSort }) => {
           Meeting Initiator
         </div>
         <div className="grid grid-cols-2">
-          <div className="border p-2 text-center" onClick={()=>handleSort("user_id")}>UserId</div>
-          <div className="border p-2 text-center">Name</div>
+          <div className="border p-2 text-center cursor-pointer" onClick={() => handleSort("scheduling_user_id")}>UserId</div>
+          <div className="border p-2 text-center"
+          onClick={()=>handleSort("initiator_name")}
+          >Name</div>
         </div>
       </div>
       <div className="grid grid-rows-2 w-2/12">
@@ -30,8 +33,10 @@ const TableHeading = ({ sortBy, sortDirection, onSort }) => {
           Meeting with
         </div>
         <div className="grid grid-cols-2">
-          <div className="border p-2 text-center" onClick={()=>handleSort("user_id")}>UserId</div>
-          <div className="border p-2 text-center">User</div>
+          <div className="border p-2 text-center cursor-pointer" onClick={() => handleSort("user_id")}>UserId</div>
+          <div className="border p-2 text-center"
+          onClick={()=>handleSort("meeting_user_name")}
+          >User</div>
         </div>
       </div>
       <div
@@ -54,9 +59,9 @@ const TableHeading = ({ sortBy, sortDirection, onSort }) => {
           Time
         </div>
         <div className="grid grid-cols-3">
-          <div className="border p-2 text-center">Start Time</div>
-          <div className="border p-2 text-center">End Time</div>
-          <div className="border p-2 text-center">Date</div>
+          <div className="border p-2 text-center"onClick={() => handleSort("start_time")}>Start Time</div>
+          <div className="border p-2 text-center"onClick={() => handleSort("end_time")}>End Time</div>
+          <div className="border p-2 text-center"onClick={() => handleSort("date")}>Date</div>
         </div>
       </div>
       <div
@@ -71,6 +76,7 @@ const TableHeading = ({ sortBy, sortDirection, onSort }) => {
       >
         Status
       </div>
+      
     </div>
   );
 };

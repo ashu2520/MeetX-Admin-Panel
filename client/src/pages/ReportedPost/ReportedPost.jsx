@@ -18,7 +18,6 @@ const ReportedPosts = () => {
   const [debouncedQuery, setDebouncedQuery] = useState(""); // Debounced search query
 
   const inputRef = useRef(null);
-
   // Debouncing effect
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -73,12 +72,12 @@ const ReportedPosts = () => {
       inputRef.current.focus(); // Forcefully focus on the input element after each render
     }
   });
-
   const handleSort = (field) => {
     const order = sortField === field && sortOrder === "asc" ? "desc" : "asc";
     setSortField(field);
     setSortOrder(order);
   };
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -106,6 +105,7 @@ const ReportedPosts = () => {
                 onChange={handleSearchChange}
                 ref={inputRef} // Attach ref to the input field
               />
+
               <button className="bgPrimary p-2 rounded-lg text-white">
                 Search
               </button>
@@ -134,6 +134,7 @@ const ReportedPosts = () => {
                 No reported posts exist
               </div>
             )}
+          
           </div>
           <PaginationBar
             currentPage={page}

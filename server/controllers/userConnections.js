@@ -2,15 +2,31 @@ const db = require("../config/database.js");
 
 async function userConnections(req, res) {
     try {
-        // Query to get raw data
-        const all_users_connection_data = `
+        const { page = 1, limit = 10, search = '', sort = 'asc' } = req.query;
+        const offset = (page - 1) * limit;
+
+        // Convert page and limit to integers
+        const pageNumber = parseInt(page, 10);
+        const limitNumber = parseInt(limit, 10);
+
+        // Ensure sort is either 'asc' or 'desc'
+        const sortOrder = sort === 'desc' ? 'DESC' : 'ASC';
+
+        // Debug: Log page, limit, offset, search, and sort
+        // console.log(`Sort: ${sortOrder}`);
+
+        // Updated paginated, searchable, and sortable query
+        const paginated_query = `
             SELECT 
                 user_id,
-                request_type,
-                SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_requests,
-                SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_requests,
-                SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_requests
+                SUM(CASE WHEN request_type = 'sent' AND status = 'accepted' THEN 1 ELSE 0 END) AS send_Accepted,
+                SUM(CASE WHEN request_type = 'sent' AND status = 'pending' THEN 1 ELSE 0 END) AS send_Pending,
+                SUM(CASE WHEN request_type = 'sent' AND status = 'rejected' THEN 1 ELSE 0 END) AS send_Rejected,
+                SUM(CASE WHEN request_type = 'received' AND status = 'accepted' THEN 1 ELSE 0 END) AS received_Accepted,
+                SUM(CASE WHEN request_type = 'received' AND status = 'pending' THEN 1 ELSE 0 END) AS received_Pending,
+                SUM(CASE WHEN request_type = 'received' AND status = 'rejected' THEN 1 ELSE 0 END) AS received_Rejected
             FROM 
+          
                 (
                     SELECT 
                         connector_id AS user_id,
@@ -18,7 +34,6 @@ async function userConnections(req, res) {
                         status
                     FROM 
                         connections
-                    
                     UNION ALL
                     
                     SELECT 
@@ -28,49 +43,55 @@ async function userConnections(req, res) {
                     FROM 
                         connections
                 ) AS combined_requests
+            WHERE user_id LIKE ?
             GROUP BY 
-                user_id, request_type;
+                user_id
+            ORDER BY 
+               user_id ${sortOrder}
+            LIMIT ? OFFSET ?;
+        `;
+        // console.log(`total query:  ${paginated_query}`)
+        // Total count query
+        const count_query = `
+            SELECT COUNT(DISTINCT user_id) AS total FROM (
+                SELECT connector_id AS user_id FROM connections
+                UNION ALL
+                SELECT connectee_id AS user_id FROM connections
+            ) AS combined_requests
+            WHERE user_id LIKE ?;
         `;
 
-        const [results] = await db.query(all_users_connection_data);
+        // Fetch paginated results
+        const [results] = await db.query(paginated_query, [`%${search}%`, limitNumber, offset]);
+        // console.log('Paginated Query Results:', results);
 
-        // Transform data to combine sent and received requests for each user
-        const transformedData = results.reduce((acc, curr) => {
-            const { user_id, request_type, accepted_requests, pending_requests, rejected_requests } = curr;
+        // Fetch total count
+        const [[{ total }]] = await db.query(count_query, [`%${search}%`]);
+        // console.log('Total Count:', total);
 
-            if (!acc[user_id]) {
-                acc[user_id] = {
-                    userId: user_id,
-                    send_Accepted: 0,
-                    send_Pending: 0,
-                    send_Rejected: 0,
-                    received_Accepted: 0,
-                    received_Pending: 0,
-                    received_Rejected: 0,
-                };
-            }
+        // No need to transform data for sorting; it's already sorted
+        // Transform data
+        const transformedData = results.map(({ user_id, send_Accepted, send_Pending, send_Rejected, received_Accepted, received_Pending, received_Rejected }) => ({
+            userId: user_id,
+            send_Accepted,
+            send_Pending,
+            send_Rejected,
+            received_Accepted,
+            received_Pending,
+            received_Rejected
+        }));
 
-            if (request_type === 'sent') {
-                acc[user_id].send_Accepted = accepted_requests;
-                acc[user_id].send_Pending = pending_requests;
-                acc[user_id].send_Rejected = rejected_requests;
-            } else if (request_type === 'received') {
-                acc[user_id].received_Accepted = accepted_requests;
-                acc[user_id].received_Pending = pending_requests;
-                acc[user_id].received_Rejected = rejected_requests;
-            }
-
-            return acc;
-        }, {});
-
-        // Convert the object to an array
-        const finalData = Object.values(transformedData);
+        // console.log('Transformed Data:', JSON.stringify(transformedData, null, 2));
+        // console.log(transformedData);
 
         res.status(200).json({
-            connections_data: finalData
+            connections_data: transformedData,
+            currentPage: pageNumber,
+            totalPages: Math.ceil(total / limitNumber),
+            totalRecords: total,
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching user connections data:', error);
         res.status(500).json({
             success: false,
             message: 'An error occurred while fetching user connections data.',

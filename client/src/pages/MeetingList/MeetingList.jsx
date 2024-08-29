@@ -1,7 +1,15 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
-import TableHeading from "../../components/MeetingList/TableHeading";
+// import SlNoColumn from "../../components/MeetingList/SlNoColumn";
+import SlNoColumn from "../../components/MeetingList/SlNoColumn"
+import MeetingInitiatorColumn from "../../components/MeetingList/MeetingInitiatorColumn";
+import MeetingWithColumn from "../../components/MeetingList/MeetingWithColumn";
+import ChargeColumn from "../../components/MeetingList/ChargeColumn";
+import AmountColumn from "../../components/MeetingList/AmountColumn";
+import TimeColumn from "../../components/MeetingList/TimeColumn";
+import CreatedAtColumn from "../../components/MeetingList/CreatedAtColumn";
+import StatusColumn from "../../components/MeetingList/StatusColumn";
 import UserDataRow from "../../components/MeetingList/UserDataRow";
 import PaginationBar from "../../components/ListUsers/PaginationBar";
 
@@ -10,7 +18,8 @@ const MeetingList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState('id');
-  const [sortOrder, setSortOrder] = useState('ASC');
+  const [sortOrder, setSortOrder] = useState('asc');
+
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +37,7 @@ const MeetingList = () => {
       sortOrder,
       searchTerm,
     }).toString();
-
+    
     fetch(`http://localhost:8081/api/meetings?${queryParams}`,
     {
       headers:{
@@ -54,10 +63,21 @@ const MeetingList = () => {
     fetchMeetings();
   }, [fetchMeetings]);
 
+  // const handleSort = (field) => {
+  //   // If the field is different from the current sort field, reset sort order to 'asc'
+  //   if (field !== sortField) {
+  //     setSortOrder('asc');
+  //     setSortField(field);
+  //   } else {
+  //     // Toggle between 'asc' and 'desc' if clicking on the same field
+  //     setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
+  //   }
+  // };
   const handleSort = (field) => {
-    setSortOrder((prevSortOrder) => (prevSortOrder === 'ASC' ? 'DESC' : 'ASC'));
     setSortField(field);
+    setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' && sortField === field ? 'desc' : 'asc'));
   };
+  
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -106,12 +126,53 @@ const MeetingList = () => {
               </button>
             </form>
           </div>
-          <TableHeading onSort={handleSort} currentSortBy={sortField} currentSortOrder={sortOrder} />
-          <div className="bg-white min-h-80 max-h-fit h-[440px] overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
+        
+          {/* Table Heading Render */}
+          <div className="bg-white border flex shadow-md">
+            <SlNoColumn />
+            <MeetingInitiatorColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <MeetingWithColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <ChargeColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <AmountColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <TimeColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <CreatedAtColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+            <StatusColumn
+              sortBy={sortField}
+              sortDirection={sortOrder}
+              onSort={handleSort}
+            />
+          </div>
+
+          {/* Meeting List Render */}
+          <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {meetings.length === 0 ? (
-               <div className="text-red-500 text-center py-4 text-3xl font-bold">
-               No Meetings Available
-             </div>
+              <div className="text-red-500 text-center py-4 text-3xl font-bold">
+                No Meetings Available
+              </div>
             ) : (
               meetings.map((meeting, index) => (
                 <UserDataRow
@@ -123,6 +184,7 @@ const MeetingList = () => {
             )}
           </div>
 
+          {/* Pagination */}
           <PaginationBar
             currentPage={currentPage}
             totalPages={totalPages}

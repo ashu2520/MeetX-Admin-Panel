@@ -4,7 +4,8 @@ import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
 import PaginationBar from "../../components/ListUsers/PaginationBar"; // Import the PaginationBar
 import UserDataRow from "../../components/ListUsers/UserDataRow";
-import TableH from "./Tableheading";
+// import TableH from "./Tableheading";
+import TableHeading from "./Tableheading";
 
 const ListUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -39,12 +40,7 @@ const ListUsers = () => {
   // Fetch data whenever the current page, search, or sorting changes
   useEffect(() => {
     fetch(
-      `http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
-      {
-        headers:{
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        }
-      }
+      http://localhost:8081/api/usersList?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}
     )
       .then((res) => {
         if (!res.ok) {
@@ -64,20 +60,20 @@ const ListUsers = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1); // Reset to page 1 on new search
-    navigate(`?page=1&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`);
+    navigate(?page=1&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder});
   };
   // Handle sort column change
   const handleSort = (column, order) => {
-    console.log(`Sorting by ${column} in ${order} order`);
+ 
     setSortBy(column);
     setSortOrder(order);
-    navigate(`?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${column}&sortOrder=${order}`);
+    navigate(?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${column}&sortOrder=${order});
   };
 
   // Handle page changes and update the URL query parameters
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    navigate(`?page=${page}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder}`);
+    navigate(?page=${page}&limit=${limit}&search=${searchQuery}&sortBy=${sortBy}&sortOrder=${sortOrder});
   };
 
   if (error) {
@@ -106,12 +102,13 @@ const ListUsers = () => {
               </button>
             </form>
           </div>
-          <TableH
-            onSort={handleSort}
-            currentSortBy={sortBy}
-            currentSortOrder={sortOrder}
-          />
-          <div className="bg-white min-h-80 max-h-fit h-[440px] overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
+          <TableHeading
+  onSort={handleSort}
+  currentSortBy={sortBy}
+  currentSortOrder={sortOrder}
+/>
+
+          <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {usersData.length > 0 ? (
               usersData.map(
                 (
