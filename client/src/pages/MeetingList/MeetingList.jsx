@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
 // import SlNoColumn from "../../components/MeetingList/SlNoColumn";
-import SlNoColumn from "../../components/MeetingList/SlNoColumn"
+import SlNoColumn from "../../components/MeetingList/SlNoColumn";
 import MeetingInitiatorColumn from "../../components/MeetingList/MeetingInitiatorColumn";
 import MeetingWithColumn from "../../components/MeetingList/MeetingWithColumn";
 import ChargeColumn from "../../components/MeetingList/ChargeColumn";
@@ -17,10 +17,10 @@ const MeetingList = () => {
   const [meetings, setMeetings] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortField, setSortField] = useState('id');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortField, setSortField] = useState("id");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,12 +37,11 @@ const MeetingList = () => {
       sortOrder,
       searchTerm,
     }).toString();
-    
-    fetch(`http://localhost:8081/api/meetings?${queryParams}`,
-    {
-      headers:{
+
+    fetch(`http://localhost:8081/api/meetings?${queryParams}`, {
+      headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      }
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -75,9 +74,10 @@ const MeetingList = () => {
   // };
   const handleSort = (field) => {
     setSortField(field);
-    setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' && sortField === field ? 'desc' : 'asc'));
+    setSortOrder((prevSortOrder) =>
+      prevSortOrder === "asc" && sortField === field ? "desc" : "asc"
+    );
   };
-  
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -126,7 +126,7 @@ const MeetingList = () => {
               </button>
             </form>
           </div>
-        
+
           {/* Table Heading Render */}
           <div className="bg-white border flex shadow-md">
             <SlNoColumn />

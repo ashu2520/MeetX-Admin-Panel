@@ -58,7 +58,10 @@ const WalletHistory = () => {
         <div className="p-4 w-full flex flex-col gap-4 relative">
           <div className="flex justify-between">
             <h1 className="text-2xl">Wallet History</h1>
-            <form className="gap-4 flex items-center" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="gap-4 flex items-center"
+              onSubmit={(e) => e.preventDefault()}
+            >
               <label className="text-lg">Search</label>
               <input
                 type="text"
@@ -67,7 +70,9 @@ const WalletHistory = () => {
                 value={search}
                 onChange={handleSearchChange}
               />
-              <button className="bgPrimary p-2 rounded-lg text-white">Search</button>
+              <button className="bgPrimary p-2 rounded-lg text-white">
+                Search
+              </button>
             </form>
           </div>
           <UserWalletTableHeading onSort={handleSort} />

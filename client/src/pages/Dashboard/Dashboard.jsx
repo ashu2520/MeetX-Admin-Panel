@@ -67,7 +67,7 @@ const Dashboard = () => {
       <div className="w-full flex">
         <Sidebar />
         <div className="flex flex-col w-full">
-          <div className="grid grid-cols-7 gap-2 p-2 pt-4 w-full">
+          <div className="grid grid-cols-8 gap-2 p-2 pt-4 w-full">
             <DashCard title="Total Users" number={dashboardData.total_users} />
             <DashCard
               title="Users Today"

@@ -34,9 +34,9 @@ const Sidebar = () => {
            <img src={MeetingIcon} alt="" className="w-4"/>
            <span>Meeting List</span> 
         </Link>
-        <Link to="/withdraw-list" className={`flex ${route === "/withdraw-list" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
+        <Link to="/wallet-history" className={`flex ${route === "/wallet-history" ? "bg-[#5247D1] text-white" : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={WithdrawIcon} alt="" className="w-4"/>
-           <span>Withdraw List</span> 
+           <span>Wallet History</span> 
         </Link>
         <Link to="/reported-post" className={`flex ${route === "/reported-post"? "bg-[#5247D1] text-white " : "bg-white text-black hover:bg-indigo-100"} gap-2 p-2 w-full items-center `}>
            <img src={ReportIcon} alt="" className="w-4"/>

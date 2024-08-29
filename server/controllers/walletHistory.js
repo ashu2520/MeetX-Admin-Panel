@@ -67,6 +67,7 @@ const getWalletHistory = async (req, res) => {
     LIMIT ? OFFSET ?
   `;
 
+  
   try {
     const [results] = await db.query(walletHistoryQuery, [
       `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`,

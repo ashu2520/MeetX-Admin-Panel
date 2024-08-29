@@ -1,5 +1,5 @@
-import React from 'react';
-import PostsCard from './PostsCard';
+import React from "react";
+import PostsCard from "./PostsCard";
 
 const PostsTab = ({ posts }) => {
   return (
@@ -15,6 +15,7 @@ const PostsTab = ({ posts }) => {
             comments={post.comments}
             shares={post.shares}
             tags={post.tags}
+            subposts={post.subposts}
           />
         ))}
       </div>

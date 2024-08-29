@@ -35,9 +35,9 @@ const ReportedPosts = () => {
     fetch(
       `http://localhost:8081/api/reportedPosts?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}&search=${debouncedQuery}`,
       {
-        headers:{
+        headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        }
+        },
       }
     )
       .then((response) => {
@@ -58,7 +58,7 @@ const ReportedPosts = () => {
         setLoading(false);
       });
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [page, sortField, sortOrder, debouncedQuery]);
@@ -77,7 +77,6 @@ const ReportedPosts = () => {
     setSortField(field);
     setSortOrder(order);
   };
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -134,7 +133,6 @@ const ReportedPosts = () => {
                 No reported posts exist
               </div>
             )}
-          
           </div>
           <PaginationBar
             currentPage={page}

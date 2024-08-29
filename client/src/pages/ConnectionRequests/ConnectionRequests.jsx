@@ -11,10 +11,10 @@ const ConnectionRequests = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(""); // Debounced search query
-  const [sortOrder, setSortOrder] = useState('');
-  
+  const [sortOrder, setSortOrder] = useState("");
+
   const inputRef = useRef(null);
 
   // Debouncing effect
@@ -33,16 +33,19 @@ const ConnectionRequests = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`
+        const response = await fetch(
+          `
           http://localhost:8081/api/usersConnection?page=${currentPage}&limit=10&search=${debouncedQuery}&sort=${sortOrder}`,
           {
-          headers:{
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
           }
-        }
         );
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
         }
         const result = await response.json();
         setData(result.connections_data);
@@ -81,16 +84,16 @@ const ConnectionRequests = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  
+
   const handleSortOrderChange = () => {
     setSortOrder((prevSortOrder) => {
-      if (prevSortOrder === '') {
-        return 'asc';
+      if (prevSortOrder === "") {
+        return "asc";
       }
-      return prevSortOrder === 'asc' ? 'desc' : 'asc';
+      return prevSortOrder === "asc" ? "desc" : "asc";
     });
   };
-  
+
   return (
     <>
       <NavBar />
@@ -99,9 +102,11 @@ const ConnectionRequests = () => {
         <div className="p-4 w-full flex flex-col gap-4 relative">
           <div className="flex justify-between">
             <h1 className="text-2xl">All Connection Requests</h1>
-            <form 
+            <form
               className="gap-4 flex items-center"
-              onSubmit={(e) => { e.preventDefault(); }}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
             >
               <label className="text-lg">Search</label>
               <input
@@ -117,22 +122,25 @@ const ConnectionRequests = () => {
               </button>
             </form>
           </div>
-          <TableHeading 
+          <TableHeading
             sortOrder={sortOrder}
             onSortOrderChange={handleSortOrderChange}
           />
           <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {data.length > 0 ? (
               data.map(
-                ({
-                  userId, 
-                  send_Accepted,
-                  send_Pending,
-                  send_Rejected,
-                  received_Accepted,
-                  received_Pending,
-                  received_Rejected
-                }, index) => (
+                (
+                  {
+                    userId,
+                    send_Accepted,
+                    send_Pending,
+                    send_Rejected,
+                    received_Accepted,
+                    received_Pending,
+                    received_Rejected,
+                  },
+                  index
+                ) => (
                   <UserDataRow
                     key={userId}
                     index={index + 1 + (currentPage - 1) * 10}
@@ -152,7 +160,7 @@ const ConnectionRequests = () => {
               </div>
             )}
           </div>
-          <Pagi 
+          <Pagi
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}

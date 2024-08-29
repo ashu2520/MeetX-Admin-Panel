@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ManageTemplates from "./pages/ManageTemplates/ManageTemplates";
 import EditTemplate from "./pages/EditTemplate/EditTemplate";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
+
 import ConnectionRequests from "./pages/ConnectionRequests/ConnectionRequests";
 import ReportedPosts from "./pages/ReportedPost/ReportedPost";
 import Profile from "./pages/Profile/Profile";
@@ -15,6 +16,9 @@ import Employee from "./pages/Employee/Employee";
 import Withdraw from "./pages/WithdrawList/WithdrawList";
 import ManageTestimonials from "./pages/ManageTestimonials/ManageTestimonials";
 import Settings from "./pages/Settings/Settings";
+import FollowersList from "./pages/FollowersList/FollowersLists";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Post from "./pages/Post/Post";
 
 function App() {
@@ -28,7 +32,7 @@ function App() {
         <Route path="/users/profile/post" element={<Post/>}/>
         <Route path="/employees" element={<Employee/>} />
         <Route path="/meeting-list" element={<MeetingList/>}/>
-        <Route path="/withdraw-list" element={<Withdraw/>}/>
+        
         <Route path="/reported-post" element={<ReportedPosts/>}/>
         <Route path="/change-password" element={<ChangePassword/>} />
         <Route path="/manage-templates" element={<ManageTemplates/>} />
@@ -37,6 +41,7 @@ function App() {
         <Route path="/connection-requests" element={<ConnectionRequests/>}/>
         <Route path="/settings" element={<Settings/>}/>
         <Route path="/wallet-history" element={<WalletHistory/>}/>
+        <Route path="/followerlist"  element={<FollowersList/>}/>
       </Routes>
     </BrowserRouter>
   );
