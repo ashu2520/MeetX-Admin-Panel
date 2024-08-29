@@ -33,17 +33,22 @@ const ConnectionRequests = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          http://localhost:8081/api/usersConnection?page=${currentPage}&limit=10&search=${debouncedQuery}&sort=${sortOrder}
+        const response = await fetch(`
+          http://localhost:8081/api/usersConnection?page=${currentPage}&limit=10&search=${debouncedQuery}&sort=${sortOrder}`,
+          {
+          headers:{
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          }
+        }
         );
         if (!response.ok) {
-          throw new Error(Network response was not ok: ${response.statusText});
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
         const result = await response.json();
         setData(result.connections_data);
         setTotalPages(result.totalPages);
       } catch (err) {
-        setError(There was an error fetching the data: ${err.message});
+        setError(`There was an error fetching the data: ${err.message}`);
       } finally {
         setLoading(false);
       }
