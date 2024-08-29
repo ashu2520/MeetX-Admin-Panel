@@ -1,17 +1,62 @@
 const db = require("../config/database.js");
 
-const getMeetings = async (req, res) => {
-  const { sortField = 'id', sortOrder = 'ASC', searchTerm = '', page = 1, rowsPerPage = 5 } = req.query;
+// Utility function to check if a value is a positive integer
+const isInteger = (value) => {
+  return Number.isInteger(Number(value)) && Number(value) > 0;
+};
 
-  // Calculate offset for pagination
+const getMeetings = async (req, res) => {
+  let { sortField = 'id', sortOrder = 'asc', searchTerm = '', page = 1, rowsPerPage = 5 } = req.query;
+
+  // Validate page and rowsPerPage to ensure they are positive integers
+  if (!isInteger(page)) {
+    return res.status(400).json({ error: 'Invalid page number. It must be a positive integer.' });
+  }
+
+  if (!isInteger(rowsPerPage)) {
+    return res.status(400).json({ error: 'Invalid rows per page value. It must be a positive integer.' });
+  }
+
+  // Validate sortOrder to ensure it's either 'asc' or 'desc'
+  if (!['asc', 'desc'].includes(sortOrder.toLowerCase())) {
+    return res.status(400).json({ error: "Invalid sort order. It must be either 'asc' or 'desc'." });
+  }
+
   const offset = (page - 1) * rowsPerPage;
 
   let whereClause = '';
+  // Agar user ne koi search term di hai, to hum SQL WHERE clause ko set kar rahe hain,
+  // taaki initiator ya meeting user ke username mein search kiya ja sake.
   if (searchTerm) {
     whereClause = `WHERE initiator_user.username LIKE '%${searchTerm}%' 
                    OR meeting_user.username LIKE '%${searchTerm}%'`;
   }
 
+  // Adjusting the sorting logic
+  // Listen by Default its sorted by user id !>>
+  let sortBy = 'schedule_meets.id';  // Default sort diya hai !..
+
+  // here that column 
+  // Meeting Initiator
+  // Name is done here 
+  if (sortField === 'initiator_name') {
+    sortBy = 'initiator_user.username';
+  } 
+  // here that column 
+  // Meeting with
+  // User is done here 
+  else if (sortField === 'meeting_user_name') {
+    sortBy = 'meeting_user.username';
+  } 
+  // else we will sort  by the field !>>
+  else {
+    sortBy = `schedule_meets.${sortField}`;
+  }
+
+  // 1 left join Schedule table ko user table se join kr rha hai !...
+  // basically it brings the username of user jisne meeting initiate kr hai!..
+  // 2 left join is also joining the tables users and schdeuled !..
+  // bascially it takes username of user wth whom meeting is scheduled!..
   const meetingSchedule = `
     SELECT
       schedule_meets.id,
@@ -34,15 +79,11 @@ const getMeetings = async (req, res) => {
     LEFT JOIN users AS initiator_user ON schedule_meets.scheduling_user_id = initiator_user.id
     LEFT JOIN users AS meeting_user ON schedule_meets.user_id = meeting_user.id
     ${whereClause}
-    ORDER BY
-      CASE
-        WHEN '${sortField}' = 'initiator_name' THEN initiator_user.username
-        WHEN '${sortField}' = 'meeting_user_name' THEN meeting_user.username
-        ELSE schedule_meets.${sortField}
-      END ${sortOrder}
+    ORDER BY ${sortBy} ${sortOrder}
     LIMIT ${rowsPerPage} OFFSET ${offset};
   `;
 
+  // Basically total meetings are get counted here!..
   const countQuery = `
     SELECT COUNT(*) as totalMeetings
     FROM schedule_meets
@@ -52,14 +93,9 @@ const getMeetings = async (req, res) => {
   `;
 
   try {
-    // Query to get paginated meetings
     const [results] = await db.query(meetingSchedule);
-    console.log("Fetched meetings data:", results); // Debugging
-
-    // Query to get total count of meetings
     const [countResult] = await db.query(countQuery);
     const totalMeetings = countResult[0].totalMeetings;
-    console.log("Total meetings count:", totalMeetings); // Debugging
 
     res.json({
       meetings: results,

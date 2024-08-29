@@ -1,60 +1,91 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
 import TableHeading from "../../components/ConnectionRequests/TableHeading";
 import UserDataRow from "../../components/ConnectionRequests/UserDataRow";
-import PaginationBar from "../../components/ListUsers/PaginationBar"; // Assuming you have this component
+import Pagi from "./Pagii";
 
 const ConnectionRequests = () => {
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("user_id");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [page, setPage] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [noResults, setNoResults] = useState(false);
-  const limit = 10;
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState(""); // Debounced search query
+  const [sortOrder, setSortOrder] = useState('');
   
+  const inputRef = useRef(null);
 
-  const fetchData = () => {
-    fetch(`http://localhost:8081/api/usersConnection?search=${search}&sortField=${sortField}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("User Connections Data:", data.connections_data);
-        setData(data.connections_data);
-        setTotalRecords(data.total);
-        setNoResults(data.connections_data.length === 0 && search !== ""); // Set no results state if there are no results and a search is performed
-      })
-      .catch((err) => {
-        console.error("There was an error fetching the data:", err);
-      });
-  };
+  // Debouncing effect
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchTerm);
+      setCurrentPage(1); // Reset to first page on new search
+    }, 300); // 300ms delay for debouncing
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `http://localhost:8081/api/usersConnection?page=${currentPage}&limit=10&search=${debouncedQuery}&sort=${sortOrder}`
+        );
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const result = await response.json();
+        setData(result.connections_data);
+        setTotalPages(result.totalPages);
+      } catch (err) {
+        setError(`There was an error fetching the data: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
-  }, [search, sortField, sortOrder, page]);
+  }, [currentPage, debouncedQuery, sortOrder]);
+
+  useEffect(() => {
+    //checking if input Ref is thier then set its focus forcefully !!
+    if (inputRef.current) {
+      inputRef.current.focus(); // Forcefully focus on the input element after each render
+    }
+  });
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-    setPage(1); // Reset to the first page when searching
-    setNoResults(false); // Reset no results state when searching
+    setSearchTerm(e.target.value);
   };
-
-  const handleSort = () => {
-    const order = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(order);
-    setSortField("user_id");
+  
+  const handleSortOrderChange = () => {
+    setSortOrder((prevSortOrder) => {
+      if (prevSortOrder === '') {
+        return 'asc';
+      }
+      return prevSortOrder === 'asc' ? 'desc' : 'asc';
+    });
   };
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
+  
   return (
     <>
       <NavBar />
@@ -63,58 +94,62 @@ const ConnectionRequests = () => {
         <div className="p-4 w-full flex flex-col gap-4 relative">
           <div className="flex justify-between">
             <h1 className="text-2xl">All Connection Requests</h1>
-            <form className="gap-4 flex items-center" onSubmit={(e) => e.preventDefault()}>
+            <form 
+              className="gap-4 flex items-center"
+              onSubmit={(e) => { e.preventDefault(); }}
+            >
               <label className="text-lg">Search</label>
               <input
                 type="text"
                 className="text-base p-1 border rounded-md w-4/5 bg-gradient-to-b from-slate-100 to-white"
                 placeholder="Type here"
-                value={search}
+                value={searchTerm}
                 onChange={handleSearchChange}
+                ref={inputRef} // Attach ref to the input field
               />
               <button className="bgPrimary p-2 rounded-lg text-white">
                 Search
               </button>
             </form>
           </div>
-          <TableHeading onSort={handleSort} />
+          <TableHeading 
+            sortOrder={sortOrder}
+            onSortOrderChange={handleSortOrderChange}
+          />
           <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
-            {noResults ? (
-              <div className="text-center p-4 text-red-600">User ID does not exist</div>
-            ) : (
-              data.length > 0 ? (
-                data.map(
-                  ({
-                    userId, 
-                    send_Accepted,
-                    send_Pending,
-                    send_Rejected,
-                    received_Accepted,
-                    received_Pending,
-                    received_Rejected
-                  }, index) => (
-                    <UserDataRow
-                      key={userId}
-                      index={index + 1}
-                      userId={userId}
-                      send_Accepted={send_Accepted}
-                      send_Pending={send_Pending}
-                      send_Rejected={send_Rejected}
-                      received_Accepted={received_Accepted}
-                      received_Pending={received_Pending}
-                      received_Rejected={received_Rejected}
-                    />
-                  )
+            {data.length > 0 ? (
+              data.map(
+                ({
+                  userId, 
+                  send_Accepted,
+                  send_Pending,
+                  send_Rejected,
+                  received_Accepted,
+                  received_Pending,
+                  received_Rejected
+                }, index) => (
+                  <UserDataRow
+                    key={userId}
+                    index={index + 1 + (currentPage - 1) * 10}
+                    userId={userId}
+                    send_Accepted={send_Accepted}
+                    send_Pending={send_Pending}
+                    send_Rejected={send_Rejected}
+                    received_Accepted={received_Accepted}
+                    received_Pending={received_Pending}
+                    received_Rejected={received_Rejected}
+                  />
                 )
-              ) : (
-                <div className="text-center p-4">No connection requests found</div>
               )
+            ) : (
+              <div className="text-red-500 text-center py-4 text-3xl font-bold">
+                No Connection Exist
+              </div>
             )}
-
           </div>
-          <PaginationBar
-            currentPage={page}
-            totalPages={Math.ceil(totalRecords / limit)}
+          <Pagi 
+            currentPage={currentPage}
+            totalPages={totalPages}
             onPageChange={handlePageChange}
           />
         </div>
@@ -124,3 +159,7 @@ const ConnectionRequests = () => {
 };
 
 export default ConnectionRequests;
+
+
+
+

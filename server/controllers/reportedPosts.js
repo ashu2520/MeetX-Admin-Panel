@@ -15,7 +15,6 @@ async function reportedPosts(req, res) {
                 message: "Invalid page number. It must be a positive integer."
             });
         }
-
         if (isNaN(limit) || limit < 1) {
             return res.status(400).json({
                 success: false,
@@ -32,13 +31,13 @@ async function reportedPosts(req, res) {
             });
         }
 
-        sortOrder = sortOrder.toLowerCase();
-        if (sortOrder !== "asc" && sortOrder !== "desc") {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid sort order. It must be either 'asc' or 'desc'."
-            });
-        }
+        // sortOrder = sortOrder.toLowerCase();
+        // if (sortOrder !== "asc" && sortOrder !== "desc") {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Invalid sort order. It must be either 'asc' or 'desc'."
+        //     });
+        // }
 
         const offset = (page - 1) * limit;
 

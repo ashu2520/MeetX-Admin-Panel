@@ -4,7 +4,8 @@ import NavBar from "../../components/NavBar";
 import Sidebar from "../../components/Sidebar";
 import PaginationBar from "../../components/ListUsers/PaginationBar"; // Import the PaginationBar
 import UserDataRow from "../../components/ListUsers/UserDataRow";
-import TableH from "./Tableheading";
+// import TableH from "./Tableheading";
+import TableHeading from "./Tableheading";
 
 const ListUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -63,7 +64,7 @@ const ListUsers = () => {
   };
   // Handle sort column change
   const handleSort = (column, order) => {
-    console.log(`Sorting by ${column} in ${order} order`);
+ 
     setSortBy(column);
     setSortOrder(order);
     navigate(`?page=${currentPage}&limit=${limit}&search=${searchQuery}&sortBy=${column}&sortOrder=${order}`);
@@ -101,11 +102,12 @@ const ListUsers = () => {
               </button>
             </form>
           </div>
-          <TableH
-            onSort={handleSort}
-            currentSortBy={sortBy}
-            currentSortOrder={sortOrder}
-          />
+          <TableHeading
+  onSort={handleSort}
+  currentSortBy={sortBy}
+  currentSortOrder={sortOrder}
+/>
+
           <div className="bg-white min-h-96 max-h-[75vh] h-full overflow-y-scroll overflow-x-hidden connectionRequest-container shadow-xl">
             {usersData.length > 0 ? (
               usersData.map(

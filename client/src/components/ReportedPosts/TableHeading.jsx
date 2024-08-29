@@ -2,6 +2,8 @@ import React from "react";
 
 const TableHeading = ({ onSort }) => {
   return (
+    
+
     <div className="bg-white border flex shadow-md">
       <div className="border w-1/12 p-2 font-semibold text-center">Sl. No.</div>
       <div className="border w-2/12 p-2 font-semibold text-center cursor-pointer" onClick={() => onSort("rp.user_id")}>

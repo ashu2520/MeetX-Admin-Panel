@@ -46,7 +46,6 @@ const usersList = async (req, res) => {
 
         // Search clause
         const searchClause = search ? `WHERE username LIKE ? OR email LIKE ? OR mobile_number LIKE ?` : "";
-
         // Query to fetch user data
         const usersBasicInfoQuery = `
             SELECT 
