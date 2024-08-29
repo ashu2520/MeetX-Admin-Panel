@@ -19,6 +19,7 @@ import Settings from "./pages/Settings/Settings";
 import FollowersList from "./pages/FollowersList/FollowersLists";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Post from "./pages/Post/Post";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<ListUsers />} />
         <Route path="/users/profile" element={<Profile/>}/>
+        <Route path="/users/profile/post" element={<Post/>}/>
         <Route path="/employees" element={<Employee/>} />
         <Route path="/meeting-list" element={<MeetingList/>}/>
         

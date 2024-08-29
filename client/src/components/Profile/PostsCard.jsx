@@ -18,37 +18,37 @@ const PostsCard = ({
   shares,
   subposts = [],
 }) => {
-  const [isZoomed, setIsZoomed] = useState(false);
+  // const [isZoomed, setIsZoomed] = useState(false);
   const [subTab, setSubTab] = useState(null);
 
-  const handleZoomToggle = () => {
-    if (isZoomed) {
-      setSubTab(null);
-      document.body.style.overflow = "auto";
-    } else {
-      document.body.style.overflowX = "hidden";
-    }
-    setIsZoomed(!isZoomed);
-  };
+  // const handleZoomToggle = () => {
+  //   if (isZoomed) {
+  //     setSubTab(null);
+  //     document.body.style.overflow = "auto";
+  //   } else {
+  //     document.body.style.overflowX = "hidden";
+  //   }
+  //   setIsZoomed(!isZoomed);
+  // };
 
   return (
     <>
       <div
         className="w-full aspect-video bg-cover bg-center hover:scale-105 hover:cursor-pointer hover:shadow-2xl duration-500"
         style={{ backgroundImage: `url(${imgSrc})` }}
-        onClick={handleZoomToggle}
+        // onClick={handleZoomToggle}
       ></div>
-      {isZoomed && (
+      {/* {isZoomed && (
         <div className="w-screen h-screen fixed top-0 left-0 bg-[#00000091] z-40 flex pt-10 flex-col items-center">
           <div className="relative bg-white w-[800px] opacity-100 p-2 gap-2 h-fit z-50">
             <div
               className="absolute top-2 right-2 bg-black w-8 h-8 text-white rounded-full flex items-center justify-center hover:scale-125 hover:cursor-pointer duration-300 z-50"
-              onClick={handleZoomToggle}
+              // onClick={handleZoomToggle}
             >
               X
             </div>
 
-            {/* Check if there are subposts */}
+            
             {subposts.length > 0 ? (
               <Carousel
                 additionalTransfrom={0}
@@ -102,7 +102,7 @@ const PostsCard = ({
                   className="w-full aspect-video bg-cover bg-center"
                   style={{ backgroundImage: `url(${imgSrc})` }}
                 ></div>
-                {/* Subpost Images */}
+                
                 {subposts.map((subpost, index) => (
                   <div
                     key={index}
@@ -167,7 +167,7 @@ const PostsCard = ({
             {subTab === "tags" && <PostsSubTab list={tags} />}
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };
