@@ -7,7 +7,16 @@ const { reportedPosts } = require("../controllers/reportedPosts");
 const { getMeetings } = require("../controllers/meetController");
 const { getWalletHistory } = require("../controllers/walletHistory");
 const { getUserProfile } = require("../controllers/userDetail");
+const { validateToken } = require("../middlewares/validateToken");
+const { getAdmins, createAdmin, loginAdmin, currentAdmin, resetPassword } = require("../controllers/auth");
 
+router.get("/api/admins/all", getAdmins);
+router.post("/api/admins/register", createAdmin);
+router.post("/api/admins/login", loginAdmin);
+router.get("/api/admins/current", validateToken, currentAdmin);
+router.put("/api/admins/reset-password", validateToken, resetPassword);
+
+router.use("/api/", validateToken);
 router.get("/api/dashboard", dashboard);
 router.get("/api/usersList", usersList);
 router.get("/api/usersConnection", userConnections);
