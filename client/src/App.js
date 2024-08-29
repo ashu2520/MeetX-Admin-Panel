@@ -17,6 +17,8 @@ import Withdraw from "./pages/WithdrawList/WithdrawList";
 import ManageTestimonials from "./pages/ManageTestimonials/ManageTestimonials";
 import Settings from "./pages/Settings/Settings";
 import FollowersList from "./pages/FollowersList/FollowersLists";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
